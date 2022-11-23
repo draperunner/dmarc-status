@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <title>Norsk DMARC-status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Avenir, Verdana, Helvetica, sans-serif;
+      }
+      article {
+        max-width: 50vw;
+        margin: auto;
+        text-align: center;
+      }
+      table {
+        margin: 2rem auto;
+      }
+      .reject {
+        color: green;
+      }
+      .quarantine {
+        color: orange;
+      }
+      .none {
+        color: red;
+      }
+      .non-existent {
+        color: crimson;
+      }
+
+      @media (max-width: 800px) {
+        article {
+          max-width: unset;
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <h1>Norsk DMARC-status</h1>
+
+      <p>
+        Eit av dei beste våpena me har mot <em>spoofing</em> og forfalska
+        e-postar er DMARC. Alle domene, uansett om dei sender e-post eller
+        ikkje, bør ha DMARC sett opp. Meininga med denne sida er å oppmode store
+        norske aktørar til å forbetre sine DMARC-reglar.
+      </p>
+
+      <div>
+        <table>
+          <thead>
+            <th>Domene</th>
+            <th>Policy</th>
+          </thead>
+          {{TABLE_ROWS}}
+        </table>
+      </div>
+    </article>
+  </body>
+</html>
