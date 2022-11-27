@@ -44,6 +44,13 @@ function comparator(dmarcA, dmarcB) {
   return dmarcA.domain.localeCompare(dmarcB.domain);
 }
 
+function getTimeElement() {
+  const now = new Date();
+  return `<time datetime="${now.toISOString()}">${now.toLocaleString(
+    "no"
+  )}</time>`;
+}
+
 async function main() {
   const policies = [];
 
@@ -66,10 +73,9 @@ async function main() {
     );
 
   const htmlTemplate = readFileSync("./src/index.html", "utf-8");
-  const populatedTemplate = htmlTemplate.replace(
-    "{{TABLE_ROWS}}",
-    tableRows.join("\n")
-  );
+  const populatedTemplate = htmlTemplate
+    .replace("{{TABLE_ROWS}}", tableRows.join("\n"))
+    .replace("{{UPDATED_AT}}", getTimeElement());
 
   mkdirSync("./dist", { recursive: true });
   writeFileSync("./dist/index.html", populatedTemplate, "utf-8");

@@ -28,6 +28,9 @@
       .non-existent {
         color: crimson;
       }
+      .updated-at {
+        font-size: 14px;
+      }
 
       @media (max-width: 800px) {
         article {
@@ -40,6 +43,7 @@
   <body>
     <article>
       <h1>Norsk DMARC-status</h1>
+      <span class="updated-at">Sist oppdatert {{UPDATED_AT}}</span>
 
       <p>
         Eit av dei beste våpena me har mot <em>spoofing</em> og forfalska
