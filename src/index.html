@@ -11,25 +11,24 @@
       article {
         max-width: 50vw;
         margin: auto;
-        text-align: center;
-      }
-      table {
-        margin: 2rem auto;
-      }
-      .reject {
-        color: green;
-      }
-      .quarantine {
-        color: orange;
-      }
-      .none {
-        color: red;
-      }
-      .non-existent {
-        color: crimson;
       }
       .updated-at {
         font-size: 14px;
+      }
+      main.container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+      }
+
+      @media (max-width: 1000px) {
+        article {
+          max-width: 80vw;
+          padding: 1rem;
+        }
+        main.container {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
 
       @media (max-width: 800px) {
@@ -58,15 +57,7 @@
         <a href="https://dmarc.no" target="_blank">https://dmarc.no</a>.
       </p>
 
-      <div>
-        <table>
-          <thead>
-            <th>Domene</th>
-            <th>Policy</th>
-          </thead>
-          {{TABLE_ROWS}}
-        </table>
-      </div>
+      <main class="container">{{CONTENT}}</main>
     </article>
   </body>
 </html>

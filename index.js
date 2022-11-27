@@ -17,31 +17,30 @@ async function getDmarcRecord(hostname) {
   try {
     const records = await getTxtRecords("_dmarc." + hostname);
     const dmarcRecord = records.find((record) => record.includes("v=DMARC"));
-    return dmarcRecord ? parseDmarcRecord(hostname, dmarcRecord) : undefined;
+    return dmarcRecord ? parseDmarcRecord(dmarcRecord) : undefined;
   } catch (error) {
     return undefined;
   }
 }
 
-function parseDmarcRecord(domain, stringRecord) {
+function parseDmarcRecord(stringRecord) {
   return {
-    domain,
     v: /v=(\w+)/.exec(stringRecord)?.[1],
     p: /p=(\w+)/.exec(stringRecord)?.[1],
   };
 }
 
-function policyValue(dmarcRecord) {
-  return ["none", "quarantine", "reject"].indexOf(dmarcRecord.p);
-}
-
-function comparator(dmarcA, dmarcB) {
-  const policyDiff = policyValue(dmarcA) - policyValue(dmarcB);
-  if (policyDiff != 0) {
-    return policyDiff;
+function policyHeader(policy) {
+  switch (policy) {
+    case "none":
+      return "None&nbsp;☹️";
+    case "quarantine":
+      return "Quarantine&nbsp;🫤";
+    case "reject":
+      return "Reject&nbsp;✅";
+    default:
+      return "DMARC manglar!&nbsp;❌";
   }
-
-  return dmarcA.domain.localeCompare(dmarcB.domain);
 }
 
 function getTimeElement() {
@@ -52,29 +51,39 @@ function getTimeElement() {
 }
 
 async function main() {
-  const policies = [];
+  const dmarcs = [];
 
   for (const domain of DOMAINS) {
     const dmarc = await getDmarcRecord(domain);
 
-    policies.push({
+    dmarcs.push({
       domain,
       ...(dmarc || {}),
     });
   }
 
-  const tableRows = [...policies]
-    .sort(comparator)
-    .map(
-      ({ domain, p }) =>
-        `<tr><td>${domain}</td><td class="${p ?? "non-existent"}">${
-          p ?? "DMARC manglar!"
-        }</td></tr>`
-    );
+  const htmlContent = [undefined, "none", "quarantine", "reject"].flatMap(
+    (policy) => {
+      return [
+        "<div>",
+        `<h2>${policyHeader(policy)}</h2>`,
+        "<ul>",
+        ...dmarcs
+          .filter(({ p }) => policy === p)
+          .sort((a, b) => a.domain.localeCompare(b.domain))
+          .map(
+            ({ domain }) =>
+              `<li><a href="https://${domain}" target="_blank">${domain}</a></li>`
+          ),
+        "</ul>",
+        "</div>",
+      ];
+    }
+  );
 
   const htmlTemplate = readFileSync("./src/index.html", "utf-8");
   const populatedTemplate = htmlTemplate
-    .replace("{{TABLE_ROWS}}", tableRows.join("\n"))
+    .replace("{{CONTENT}}", htmlContent.join("\n"))
     .replace("{{UPDATED_AT}}", getTimeElement());
 
   mkdirSync("./dist", { recursive: true });
