@@ -35,7 +35,7 @@ function policyHeader(policy) {
     case "none":
       return "None&nbsp;☹️";
     case "quarantine":
-      return "Quarantine&nbsp;🫤";
+      return "Quarantine&nbsp;🤔";
     case "reject":
       return "Reject&nbsp;✅";
     default:
