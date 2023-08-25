@@ -1,7 +1,6 @@
 import { resolveTxt } from "dns";
 import { readFileSync, writeFileSync, mkdirSync } from "fs";
-
-import DOMAINS from "./domains.json" assert { type: "json" };
+import { open } from "fs/promises";
 
 function getTxtRecords(hostname) {
   return new Promise((resolve, reject) =>
@@ -53,7 +52,9 @@ function getTimeElement() {
 async function main() {
   const dmarcs = [];
 
-  for (const domain of DOMAINS) {
+  const domainsFile = await open("./domains.txt");
+
+  for await (const domain of domainsFile.readLines()) {
     const dmarc = await getDmarcRecord(domain);
 
     dmarcs.push({
