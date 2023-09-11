@@ -114,3 +114,4 @@ nettbil.no
 kartverket.no
 norgeskart.no
 morrowbank.no
+spleis.no
