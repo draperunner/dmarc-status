@@ -115,3 +115,4 @@ kartverket.no
 norgeskart.no
 morrowbank.no
 spleis.no
+hyre.no
