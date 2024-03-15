@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: "./dist"
-          retention-days: 30
+          retention-days: 90
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
