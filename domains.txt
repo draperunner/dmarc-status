@@ -116,3 +116,4 @@ norgeskart.no
 morrowbank.no
 spleis.no
 hyre.no
+nextgentel.no
