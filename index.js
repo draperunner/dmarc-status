@@ -1,15 +1,9 @@
-import { resolveTxt } from "dns";
-import { readFileSync, writeFileSync, mkdirSync } from "fs";
-import { open } from "fs/promises";
+import { resolveTxt } from "node:dns/promises";
+import { readFile, writeFile, mkdir, open } from "node:fs/promises";
 
-function getTxtRecords(hostname) {
-  return new Promise((resolve, reject) =>
-    resolveTxt(hostname, (err, records) =>
-      err
-        ? reject(err)
-        : resolve(records.map((recordParts) => recordParts.join("")))
-    )
-  );
+async function getTxtRecords(hostname) {
+  const records = await resolveTxt(hostname);
+  return records.map((recordParts) => recordParts.join(""));
 }
 
 async function getDmarcRecord(hostname) {
@@ -45,7 +39,7 @@ function policyHeader(policy) {
 function getTimeElement() {
   const now = new Date();
   return `<time datetime="${now.toISOString()}">${now.toLocaleString(
-    "no"
+    "no",
   )}</time>`;
 }
 
@@ -74,21 +68,21 @@ async function main() {
           .sort((a, b) => a.domain.localeCompare(b.domain))
           .map(
             ({ domain }) =>
-              `<li><a href="https://${domain}" target="_blank">${domain}</a></li>`
+              `<li><a href="https://${domain}" target="_blank">${domain}</a></li>`,
           ),
         "</ul>",
         "</div>",
       ];
-    }
+    },
   );
 
-  const htmlTemplate = readFileSync("./src/index.html", "utf-8");
+  const htmlTemplate = await readFile("./src/index.html", "utf-8");
   const populatedTemplate = htmlTemplate
     .replace("{{CONTENT}}", htmlContent.join("\n"))
     .replace("{{UPDATED_AT}}", getTimeElement());
 
-  mkdirSync("./dist", { recursive: true });
-  writeFileSync("./dist/index.html", populatedTemplate, "utf-8");
+  await mkdir("./dist", { recursive: true });
+  await writeFile("./dist/index.html", populatedTemplate, "utf-8");
 }
 
 main();
