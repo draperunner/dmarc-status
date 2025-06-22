@@ -120,3 +120,5 @@ nextgentel.no
 transponder.no
 toll.no
 tolletaten.no
+bulder.no
+sor.no
