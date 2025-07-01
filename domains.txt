@@ -122,3 +122,6 @@ toll.no
 tolletaten.no
 bulder.no
 sor.no
+flytpass.no
+autosync.no
+skyttelpass.no
