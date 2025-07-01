@@ -125,3 +125,4 @@ sor.no
 flytpass.no
 autosync.no
 skyttelpass.no
+autopass.no
