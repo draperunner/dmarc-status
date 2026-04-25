@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "module",
   "engines": {
-    "node": "20",
-    "npm": "10"
+    "node": "24"
   },
   "scripts": {
     "build": "node index.js && cp -r public/ dist/",
