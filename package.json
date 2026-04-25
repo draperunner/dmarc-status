@@ -9,7 +9,7 @@
     "npm": "10"
   },
   "scripts": {
-    "build": "node index.js",
+    "build": "node index.js && cp -r public/ dist/",
     "start": "npm run build && open dist/index.html"
   },
   "keywords": [],
