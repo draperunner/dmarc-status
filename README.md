@@ -15,14 +15,15 @@ I'm quite satisfied with how this website has achieved the following:
 - Daily automatic updates
 - No JavaScript needed (except for Plausible.js analytics)
 - No external resources (except for Plausible.js analytics)
-- Free hosting
 
 Cool, right?
 
 Fetching DMARC status is just a matter of querying some DNS records, which is
 quite easy with core Node.js. The `index.js` script runs through the domains
-listed in `domains.json` and generates the simple HTML site. GitHub Actions
-deploys the built site to GitHub Pages on every commit and on every midnight.
+listed in `domains.json` and generates the simple HTML site.
+
+The site is hosted on statichost.eu and built on every commit and every
+midnight by a cron-job.
 
 ## Contribute
 
